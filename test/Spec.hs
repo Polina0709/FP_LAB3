@@ -6,6 +6,12 @@ import TextProcessing
 import Data.List (isInfixOf)
 import Data.Char (isAlpha)
 
+genSentenceWithFinalPunct :: Gen String
+genSentenceWithFinalPunct = do
+  body <- listOf1 $ elements (['a'..'z'] ++ ['A'..'Z'] ++ " -—")
+  punct <- elements ".!?"
+  return (body ++ [punct])
+
 main :: IO ()
 main = hspec $ do
 
@@ -47,11 +53,10 @@ main = hspec $ do
       property $ \xs ->
         not ("  " `isInfixOf` normalizeSpaces xs)
 
-    it "processing preserves final punctuation (for sentences with words)" $
-      property $ \s ->
-        any isAlpha s ==>        -- only valid sentences
-          let punct = lastCharIfPunct s
-          in lastCharIfPunct (processSentence s) == punct
+    it "processing preserves final punctuation" $
+      forAll genSentenceWithFinalPunct $ \s ->
+        let punct = lastCharIfPunct s
+        in lastCharIfPunct (processSentence s) == punct
 
     it "swapFirstLast is involutive for 2-word sentences" $
       property $ \(NonEmpty ws') ->
