@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Lib
+      TextProcessing
   other-modules:
       Paths_textproc
   autogen-modules:
@@ -35,6 +36,8 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
+    , criterion
+    , hspec
   default-language: Haskell2010
 
 executable textproc-exe
@@ -48,6 +51,8 @@ executable textproc-exe
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , criterion
+    , hspec
     , textproc
   default-language: Haskell2010
 
@@ -62,6 +67,26 @@ test-suite textproc-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
+      QuickCheck
+    , base >=4.7 && <5
+    , criterion
+    , hspec
+    , textproc
+  default-language: Haskell2010
+
+benchmark textproc-bench
+  type: exitcode-stdio-1.0
+  main-is: Bench.hs
+  other-modules:
+      Paths_textproc
+  autogen-modules:
+      Paths_textproc
+  hs-source-dirs:
+      bench
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -O2
+  build-depends:
       base >=4.7 && <5
+    , criterion
+    , hspec
     , textproc
   default-language: Haskell2010

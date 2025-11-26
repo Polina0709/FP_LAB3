@@ -21,6 +21,8 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- hspec
+- criterion
 
 ghc-options:
 - -Wall
@@ -57,3 +59,15 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - textproc
+    - hspec
+    - QuickCheck
+
+benchmarks:
+  textproc-bench:
+    main: Bench.hs
+    source-dirs: bench
+    ghc-options: -O2
+    dependencies:
+      - textproc
+      - criterion
+
